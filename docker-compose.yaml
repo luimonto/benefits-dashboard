@@ -1,0 +1,7 @@
+services:
+  tests:
+    build: .
+    volumes:
+      - .:/app
+    env_file:
+      - .env

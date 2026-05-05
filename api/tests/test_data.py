@@ -1,6 +1,7 @@
-def employee_payload(firstname="", lastname="", dependents=None):
+def employee_payload(firstname="", lastname="", username="", dependants=0):
     return {
         "firstName": firstname,
         "lastName": lastname,
-        "dependents": dependents or []
+        "username": username,
+        "dependants": dependants or 0
     }
