@@ -1,6 +1,28 @@
 import pytest
 
 from ui.pages.login_page import LoginPage
+from config.settings import UI_USERNAME, UI_PASSWORD
+
+
+@pytest.mark.ui
+def test_login_success(page):
+    login = LoginPage(page)
+    login.navigate()
+    login.login(UI_USERNAME, UI_PASSWORD)
+
+    assert "Benefits" in page.url
+
+
+@pytest.mark.ui
+def test_ui_no_redirect_on_401(page):
+    login = LoginPage(page)
+    login.navigate()
+    login.login(UI_USERNAME, UI_PASSWORD)
+
+    page.context.clear_cookies()
+    page.reload()
+
+    assert "Login" not in page.url
 
 
 @pytest.mark.ui

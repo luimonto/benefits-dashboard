@@ -11,7 +11,7 @@ def page():
     browser.close()
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def employee():
     return Employee()
 
@@ -19,7 +19,7 @@ def employee():
 def created_employees():
     return []
 
-
+"""
 @pytest.fixture(scope="session", autouse=True)
 def cleanup_employees(created_employees, employee):
     yield
@@ -29,3 +29,4 @@ def cleanup_employees(created_employees, employee):
             employee.delete_employee(emp_id)
         except Exception as e:
             print(f"Cleanup failed for {emp_id}: {e}")
+"""
