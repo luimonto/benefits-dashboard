@@ -256,6 +256,7 @@ def test_unknown_fields_are_ignored(employee):
 
 
 @pytest.mark.api
+@pytest.mark.xfail(reason="API returns 500 instead of 400/404 for invalid UUID")
 def test_get_employee_invalid_uuid(employee):
     invalid_id = "123-not-a-uuid"
 

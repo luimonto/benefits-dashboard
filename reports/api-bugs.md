@@ -60,13 +60,47 @@ This behavior is not documented
 ## Recommendation
 Standardize units or document them clearly in the API contract
 
+
+## BUG-002 GET employee with invalid UUID return 500 internal server error
+
+## Description
+
+The API returns `500 inetranl server error` when an invalid UUID is providen in the path parameter this indicates the 
+request is not properly validated before processing
+
+## Steps to reproduce
+
+1. Send GET `/api/Employee/{id}` with an invalid UUID
+```
+/api/Employee/123-not-a-uuid
+```
+
+## Actual result
+
+`500 internal server error`
+
+## Expected result
+
+. Should return `400 bad reuqest` if want to return invalid format or `404 not found` if want to be treated as not 
+existing resource
+
+## Impact
+
+. Indicates unhandled exception in the backend 
+. Causes not proper way to handle client side error 
+
+## Recommendation
+
+Validate UUID format before processing and then return appropiate client error.
+
+
 ---
 
 # MAJOR BUGS
 
 ---
 
-## BUG-002: `salary` field incorrectly modeled in schema
+## BUG-003: `salary` field incorrectly modeled in schema
 
 ## Description
 
@@ -98,7 +132,7 @@ Mark `salary` as `readOnly` or make it as required input
 
 ---
 
-## BUG-003: Missing error response definitions in Swagger
+## BUG-004: Missing error response definitions in Swagger
 
 ## Description
 
@@ -139,7 +173,7 @@ Define complete reponse schemas for all endpoints
 
 ---
 
-## BUG-004: API silently ignores unknown fields instead of rejecting request
+## BUG-005: API silently ignores unknown fields instead of rejecting request
 
 ## Description
 
@@ -186,6 +220,43 @@ fields should not be allowed
 ## Recommendation
  
 Reject request containing unknown fields and return error message indicating invalid properties
+
+
+## BUG-006: Invalid data type returns 405 method not allowed
+
+## Description
+
+When sending and invalid data type for field (string instead integer for dependants), the API returns 
+`405 method not allowed` which is unrelated to the request content
+
+## Steps to reproduce
+
+1. Send incorrect data type (string in `dependants` field)
+```
+{
+  "firstName": "Type",
+  "lastName": "Test",
+  "username": "type_test",
+  "dependants": "two"
+}
+```
+
+## Actual result
+
+. Response with `405 method not allowed`
+
+## Expected result
+
+. Response with `400 bad request` or `422 unprocessable entity`
+
+## Impact 
+. Incorrect HTTP status code
+. Makes debugging harder
+
+## Recommendation 
+
+Implement proper request validation and return correct status code
+
 
 
 ## MINOR BUGS
