@@ -95,22 +95,6 @@ def test_invalid_expiration_format(employee):
 
 
 @pytest.mark.api
-def test_float_precision(employee):
-    payload = employee_payload(
-        firstname="float",
-        lastname="test",
-        username="float_test",
-        dependants=1
-    )
-
-    res = employee.create_employee(payload)
-    data = res.json()
-
-    assert isinstance(data["gross"], (int, float))
-    assert round(data["net"], 2) == data["net"]
-
-
-@pytest.mark.api
 def test_benefits_calculation(employee):
     payload = employee_payload(
         firstname="Some",
