@@ -94,13 +94,52 @@ existing resource
 Validate UUID format before processing and then return appropiate client error.
 
 
+## BUG-003 Username field ignored and overridden by authenticated user
+
+## Description
+
+The API ignores the `username` value provided in the request payload and instead it assigns the username of the 
+authenticated user the one that it is making the request
+
+## Steps to reproduce
+
+1. Authenticate with a valid user
+2. Send POST `/api/Employee`
+
+```
+{
+  "firstName": "Luis",
+  "lastName": "Montoya",
+  "username": "luimonto"
+}
+```
+
+## Actual result
+
+```
+"username": "<authenticated_user>"
+```
+
+## Expected result
+
+Use the provided `username` value or mark `username` as `readOnly: true`
+
+## Impact
+
+The input data `username` is silently ignored
+Misleading API contract
+
+## Recommendation
+
+Respect the provided `username` field in teh request or remove it from request schema and mark it as `readOnly` 
+
 ---
 
 # MAJOR BUGS
 
 ---
 
-## BUG-003: `salary` field incorrectly modeled in schema
+## BUG-004: `salary` field incorrectly modeled in schema
 
 ## Description
 
@@ -132,7 +171,7 @@ Mark `salary` as `readOnly` or make it as required input
 
 ---
 
-## BUG-004: Missing error response definitions in Swagger
+## BUG-005: Missing error response definitions in Swagger
 
 ## Description
 
@@ -173,7 +212,7 @@ Define complete reponse schemas for all endpoints
 
 ---
 
-## BUG-005: API silently ignores unknown fields instead of rejecting request
+## BUG-006: API silently ignores unknown fields instead of rejecting request
 
 ## Description
 

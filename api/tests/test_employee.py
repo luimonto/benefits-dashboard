@@ -13,6 +13,9 @@ def test_get_employee(employee):
 
 
 @pytest.mark.api
+@pytest.mark.xfail(
+    reason="API overrides username with authenticated user"
+)
 def test_create_employee(employee):
     payload = employee_payload(
         firstname="Luis",
@@ -175,6 +178,7 @@ def test_dependants_boundary(employee):
 
 
 @pytest.mark.api
+@pytest.mark.xfail(reason="API returns 405 instead of validation error for invalid data type")
 def test_dependants_invalid_type(employee):
     payload = employee_payload(
         firstname="type",
