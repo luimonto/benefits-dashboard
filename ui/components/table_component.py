@@ -28,3 +28,17 @@ class TableComponent:
     def is_empty(self):
         return "No employees found." in self.table.inner_text()
 
+    def find_row_by_text(self, text):
+        rows = self.get_rows()
+        for i in range(rows.count()):
+            row = rows.nth(i)
+            if text in row.inner_text():
+                return row
+        return None
+
+    def click_edit(self, row):
+        row.locator("i.fa-edit").click()
+
+    def click_delete(self, row):
+        row.locator("i.fa-times").click()
+

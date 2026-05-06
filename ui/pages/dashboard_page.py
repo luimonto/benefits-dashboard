@@ -32,6 +32,18 @@ class DashboardPage(BasePage):
         # click on add button to save new employee
         self.click(DashboardLocators.SAVE_BUTTON)
 
+    def edit_employee(self, row, new_firstname):
+
+        self.employee_table.click_edit(row)
+
+        self.page.wait_for_timeout(1000)
+
+        # update only first name
+        self.form.clear_input(DashboardLocators.FIRST_NAME_INPUT)
+        self.form.fill_input(DashboardLocators.FIRST_NAME_INPUT, new_firstname)
+
+        self.modal.click_update()
+
     def get_employee_row(self, firstname):
         rows = self.employee_table.get_rows()
 
