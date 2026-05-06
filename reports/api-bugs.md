@@ -139,6 +139,55 @@ Define complete reponse schemas for all endpoints
 
 ---
 
+## BUG-004: API silently ignores unknown fields instead of rejecting request
+
+## Description
+
+The API accepts requests containing unknown fields and silently ignores them, it returns `200 OK` response. This 
+behavior contradicts the API schema which specifies `"additionalProppeerties: false"` this indicates that not known 
+fields should not be allowed
+
+## Steps to reproduce
+
+1. Send POST `/api/Employee` with payload like 
+```
+{
+  "firstName": "extra",
+  "lastName": "field",
+  "username": "extra_field",
+  "unexpectedField": "boom"
+}
+```
+
+## Actual result
+
+ . Response `200 OK`
+ . Employee is created successfully 
+ . `unexpectedField` is not present in the response
+```
+{
+  "firstName": "extra",
+  "lastName": "field",
+  "username": "extra_field"
+}
+```
+
+## Expected result
+
+. Request should be rejected with:
+  - `400 Bad Request` or `422 Unprocessable Entity`
+. Error message indicating unknown field is not allowed
+
+## Impact
+
+. Violated API contract (`additionalProperties: false`)
+. Causes silent data loss (client assumes field was accepted)
+
+## Recommendation
+ 
+Reject request containing unknown fields and return error message indicating invalid properties
+
+
 ## MINOR BUGS
 
 
