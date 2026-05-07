@@ -16,7 +16,7 @@ def test_get_employee(employee):
 @pytest.mark.xfail(
     reason="API overrides username with authenticated user"
 )
-def test_create_employee(employee):
+def test_create_employee(employee, created_employees):
     payload = employee_payload(
         firstname="Luis",
         lastname="Montoya",
@@ -30,6 +30,8 @@ def test_create_employee(employee):
 
     assert response.status_code == HTTPStatus.OK
     data = response.json()
+
+    created_employees.append(data["id"])
 
     assert data["firstName"] == "Luis"
     assert data["lastName"] == "Montoya"
