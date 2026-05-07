@@ -1,3 +1,5 @@
+from ui.locators.locators import TableLocators
+
 class TableComponent:
 
     def __init__(self, page, table_selector):
@@ -37,8 +39,8 @@ class TableComponent:
         return None
 
     def click_edit(self, row):
-        row.locator("i.fa-edit").click()
+        row.locator(TableLocators.ICON_BUTTONS.get("edit")).click()
 
     def click_delete(self, row):
-        row.locator("i.fa-times").click()
+        row.locator(TableLocators.ICON_BUTTONS.get("delete")).click()
 

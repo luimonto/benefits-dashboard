@@ -15,9 +15,3 @@ class ModalComponent:
 
     def click_cancel(self):
         self.modal.locator("text=Cancel").click()
-
-    def click_add(self):
-        self.modal.locator("#addEmployee").click()
-
-    def click_update(self):
-        self.modal.locator("#updateEmployee").click()

@@ -1,4 +1,5 @@
 from ui.pages.base_page import BasePage
+from ui.locators.locators import LoginLocators
 
 
 class LoginPage(BasePage):
@@ -9,9 +10,9 @@ class LoginPage(BasePage):
         self.page.goto("https://wmxrwq14uc.execute-api.us-east-1.amazonaws.com/Prod/Account/Login")
 
     def login(self, username, password):
-        self.fill("#Username", username)
-        self.fill("#Password", password)
-        self.click("button[type='submit']")\
+        self.fill(LoginLocators.USERNAME, username)
+        self.fill(LoginLocators.PASSWORD, password)
+        self.click(LoginLocators.LOGIN_BUTTON)
 
     def get_username_error(self):
         return self.page.locator(self.USERNAME_ERROR)

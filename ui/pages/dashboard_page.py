@@ -1,5 +1,5 @@
 from ui.pages.base_page import BasePage
-from ui.locators.locators import DashboardLocators
+from ui.locators.locators import DashboardLocators, TableLocators, ModalLocators, FormLocators
 from ui.components.table_component import TableComponent
 from ui.components.modal_component import ModalComponent
 from ui.components.form_component import FormComponent
@@ -9,9 +9,9 @@ class DashboardPage(BasePage):
 
     def __init__(self, page):
         super().__init__(page)
-        self.employee_table = TableComponent(page, "#employeesTable")
-        self.employee_modal = ModalComponent(page, ".modal_dialog")
-        self.form = FormComponent(page, ".modal.show")
+        self.employee_table = TableComponent(page, TableLocators.TABLE_ID)
+        self.employee_modal = ModalComponent(page, ModalLocators.DIALOG_CLASS)
+        self.form = FormComponent(page, FormLocators.DIALOG_CLASS)
 
     def add_employee(self, firstname, lastname, dependants):
         self.page.wait_for_timeout(1000)
