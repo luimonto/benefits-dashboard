@@ -181,6 +181,9 @@ def test_dependants_invalid_type(employee):
 
 
 @pytest.mark.api
+@pytest.mark.xfail(
+    reason="Deleted employee remains accessible through GET by ID endpoint"
+)
 def test_delete_employee(employee):
     payload = employee_payload(
         firstname="Luis",

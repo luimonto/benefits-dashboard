@@ -261,7 +261,7 @@ fields should not be allowed
 Reject request containing unknown fields and return error message indicating invalid properties
 
 
-## BUG-006: Invalid data type returns 405 method not allowed
+## BUG-007: Invalid data type returns 405 method not allowed
 
 ## Description
 
@@ -296,7 +296,40 @@ When sending and invalid data type for field (string instead integer for dependa
 
 Implement proper request validation and return correct status code
 
+---
 
+## BUG-008: Deleted employee remains accessible through `/api/Employees/{id}`
+
+## Description
+
+After deleting and employee, the employee is removed from the employee list but the retrieve endpoint stills return 
+`200 OK` when request the data of the deleted user
+
+## Steps to reproduce 
+1. Create employee with POST `/api/Employees`
+2. Save employee ID
+3. Delete employee with DELETE `/api/Employees/{id}`
+4. Verify employee not longer appears in the UI list endpoint
+5. Request GET `/api/Employees/{id}`
+
+## Actual result 
+
+. Employee disappears from UI list endpoint
+. GET by ID still returns `200 OK`
+. Deleted employee data remains accessible
+
+## Expected result
+
+Deleted employee should return `404 not found` and be inaccessible through Get by Id endpoint
+
+## Impact
+
+. Inconsistent API behavior
+. Potential exposure of deleted records
+. Different endpoints return conflicting results
+
+## Recomendation
+Exclude or filter deleted employees from GET by ID endpoint or documment the expected behavior in API contract
 
 ## MINOR BUGS
 

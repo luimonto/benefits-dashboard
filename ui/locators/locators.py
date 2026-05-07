@@ -4,3 +4,5 @@ class DashboardLocators:
     LAST_NAME_INPUT = "#lastName"
     DEPENDANTS = "#dependants"
     SAVE_BUTTON = "#addEmployee"
+    UPDATE_BUTTON = "#updateEmployee"
+    DELETE_BUTTON = "#deleteEmployee"

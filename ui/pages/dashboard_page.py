@@ -1,4 +1,3 @@
-from ui.components.modal_component import ModalComponent
 from ui.pages.base_page import BasePage
 from ui.locators.locators import DashboardLocators
 from ui.components.table_component import TableComponent
@@ -11,7 +10,7 @@ class DashboardPage(BasePage):
     def __init__(self, page):
         super().__init__(page)
         self.employee_table = TableComponent(page, "#employeesTable")
-        self.add_employee_modal = ModalComponent(page, ".modal_dialog")
+        self.employee_modal = ModalComponent(page, ".modal_dialog")
         self.form = FormComponent(page, ".modal.show")
 
     def add_employee(self, firstname, lastname, dependants):
@@ -42,9 +41,17 @@ class DashboardPage(BasePage):
         self.form.clear_input(DashboardLocators.FIRST_NAME_INPUT)
         self.form.fill_input(DashboardLocators.FIRST_NAME_INPUT, new_firstname)
 
-        self.modal.click_update()
+        self.click(DashboardLocators.UPDATE_BUTTON)
+
+    def delete_employee(self, row, firstname):
+        self.employee_table.click_delete(row)
+        self.page.wait_for_timeout(1000)
+
+        self.click(DashboardLocators.DELETE_BUTTON)
 
     def get_employee_row(self, firstname):
+
+        self.page.wait_for_timeout(1000)
         rows = self.employee_table.get_rows()
 
         for i in range(rows.count()):

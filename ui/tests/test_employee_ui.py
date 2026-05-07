@@ -34,7 +34,7 @@ def test_table_headers(page):
     login.navigate()
     login.login(UI_USERNAME, UI_PASSWORD)
 
-    headers = dashboard.employees_table.get_headers()
+    headers = dashboard.employee_table.get_headers()
 
     assert headers == [
         "Id",
@@ -68,14 +68,14 @@ def test_edit_employee(page):
     dashboard.edit_employee(row, updated_name)
 
     # validate updated value
-    row = dashboard_page.employee_table.find_row_by_text(updated_name)
+    row = dashboard.get_employee_row(updated_name)
 
     assert row is not None
     assert updated_name in row.inner_text()
 
 
 @pytest.mark.ui
-def test_delete_employee(page):
+def test_delete_employee_ui(page):
     login = LoginPage(page)
     dashboard = DashboardPage(page)
     login.navigate()
@@ -84,13 +84,9 @@ def test_delete_employee(page):
     firstname = "DeleteMe"
 
     dashboard.add_employee(firstname, "User" , 1)
+    row = dashboard.get_employee_row(firstname)
 
-    row = dashboard.employee_table.find_row_by_text(firstname)
-
-    assert row is not None
-
-    dashboard.employee_table.click_delete(row)
-
-    deleted_row = dashboard.employee_table.find_row_by_text(firstname)
+    dashboard.delete_employee(row, firstname)
+    deleted_row = dashboard.get_employee_row(firstname)
 
     assert deleted_row is None
